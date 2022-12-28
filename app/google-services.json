@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "117812215574",
+    "project_id": "smarttravelguide-b1ddf",
+    "storage_bucket": "smarttravelguide-b1ddf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117812215574:android:d961d6dd200e5c2c63da37",
+        "android_client_info": {
+          "package_name": "com.example.smarttravelguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117812215574-5na9p03jhf9uf6se2591pgj0lvmanqa2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpQutwCezTsMKHFgy8FEv8xSwYP1NIQ4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117812215574-5na9p03jhf9uf6se2591pgj0lvmanqa2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
