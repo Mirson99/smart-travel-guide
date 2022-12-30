@@ -21,6 +21,7 @@ class SigninActivity : AppCompatActivity() {
         val authViewModel: AuthViewModel by viewModels()
 
         val signinButton = findViewById<Button>(R.id.signin_button)
+        val signupButton = findViewById<Button>(R.id.signup_button)
 
         signinButton.setOnClickListener {
             val password = findViewById<TextInputEditText>(R.id.password).text.toString()
@@ -30,6 +31,8 @@ class SigninActivity : AppCompatActivity() {
 
             authViewModel.loginFlow.observe(this, Observer { loginFlow ->
                 if (loginFlow is Resource.Success) {
+                    findViewById<TextInputEditText>(R.id.password).setText("")
+                    findViewById<TextInputEditText>(R.id.email).setText("")
                     val intent = Intent(this, HomePageActivity::class.java)
                     startActivity(intent)
                 }
@@ -37,6 +40,11 @@ class SigninActivity : AppCompatActivity() {
                     Toast.makeText(this, "Wrong username or password", Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+
+        signupButton.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
         }
     }
 }
