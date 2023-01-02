@@ -33,7 +33,7 @@ class SigninActivity : AppCompatActivity() {
                 if (loginFlow is Resource.Success) {
                     findViewById<TextInputEditText>(R.id.password).setText("")
                     findViewById<TextInputEditText>(R.id.email).setText("")
-                    val intent = Intent(this, HomePageActivity::class.java)
+                    val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
                 }
                 else if (loginFlow is Resource.Failure) {
