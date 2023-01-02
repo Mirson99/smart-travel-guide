@@ -2,9 +2,17 @@ package com.example.smarttravelguide
 
 import android.content.pm.PackageManager
 import android.graphics.Camera
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
+import android.location.LocationListener
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
@@ -17,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.example.smarttravelguide.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.io.IOException
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -27,6 +36,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val permissionCode = 101
 
+    lateinit var tvCurrentAddress: TextView
+    lateinit var button: Button
+
+    var end_latitude = 0.0
+    var end_longitude = 0.0
+    var origin: MarkerOptions? = null
+    var destination: MarkerOptions? = null
+    var latitude = 0.0
+    var longitude = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +52,73 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        tvCurrentAddress = findViewById<TextView>(R.id.tvAdd)
+        button = findViewById<Button>(R.id.B_search)
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         getCurrentLocationUser()
+
+        button.setOnClickListener {
+            searchArea()
+        }
+
+    }
+
+    private fun searchArea() {
+        val tf_location = findViewById<View>(R.id.TF_location) as EditText
+        val location = tf_location.text.toString()
+        var addressList: List<Address>? = null
+        val markerOptions = MarkerOptions()
+        Log.d("location = ", location)
+        if (location != "") {
+            val geocoder = Geocoder(applicationContext)
+            try {
+                addressList = geocoder.getFromLocationName(location, 5)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            if (addressList != null) {
+                for (i in addressList.indices) {
+                    val myAddress = addressList[i]
+                    var latLng = LatLng(myAddress.latitude, myAddress.longitude)
+                    markerOptions.position(latLng)
+                    mMap!!.addMarker(markerOptions)
+                    end_latitude = myAddress.latitude
+                    end_longitude = myAddress.longitude
+                    mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                    val mo = MarkerOptions()
+                    mo.title("Distance")
+                    val results = FloatArray(10)
+                    Location.distanceBetween(
+                        latitude,
+                        longitude,
+                        end_latitude,
+                        end_longitude,
+                        results
+                    )
+
+                    val s = String.format("%.1f", results[0]/1000)
+
+                    origin = MarkerOptions().position(LatLng(latitude, longitude))
+                        .title("HSR Layout").snippet("origin")
+                    destination =
+                        MarkerOptions().position(LatLng(end_latitude, end_longitude))
+                            .title(tf_location.text.toString())
+                            .snippet("Distance = $s KM")
+                    mMap.addMarker(destination!!)
+                    Toast.makeText(
+                        this@MapsActivity,
+                        "Distance = $s KM",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    tvCurrentAddress!!.setText("Distance = $s KM")
+                }
+
+            }
+        }
     }
 
     private fun getCurrentLocationUser() {
@@ -54,6 +136,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             location ->
             if (location != null) {
                 currentLocation = location
+
+                latitude = currentLocation.latitude
+                longitude = currentLocation.longitude
 
                 Toast.makeText(applicationContext, "Your current location: " +
                         currentLocation.latitude.toString() + "" +
@@ -83,6 +168,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
         val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
         val markerOptions = MarkerOptions().position(latLng).title("Current Location")
 
