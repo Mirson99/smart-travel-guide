@@ -36,7 +36,7 @@ class SignupActivity : AppCompatActivity() {
                     findViewById<TextInputEditText>(R.id.emailEt).setText("")
                     findViewById<TextInputEditText>(R.id.name).setText("")
 
-                    val intent = Intent(this, HomePageActivity::class.java)
+                    val intent = Intent(this, SigninActivity::class.java)
                     startActivity(intent)
                 }
                 else if (signupFlow is Resource.Failure) {
