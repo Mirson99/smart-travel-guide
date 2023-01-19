@@ -1,5 +1,6 @@
 package com.example.smarttravelguide
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Camera
 import android.location.Address
@@ -14,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,10 +25,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.smarttravelguide.databinding.ActivityMapsBinding
+import com.example.smarttravelguide.ui.auth.AuthViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
+@AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
@@ -51,6 +56,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val authViewModel: AuthViewModel by viewModels()
+
+        val logoutButton = findViewById<Button>(R.id.logout_button)
+
+        logoutButton.setOnClickListener {
+            authViewModel.logout()
+            val intent = Intent(this, SigninActivity::class.java)
+            startActivity(intent)
+        }
 
         tvCurrentAddress = findViewById<TextView>(R.id.tvAdd)
         button = findViewById<Button>(R.id.B_search)

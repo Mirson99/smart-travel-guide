@@ -6,34 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".SigninActivity">
 
-<!--    <EditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_margin="2dp"-->
-<!--        android:layout_marginStart="1dp"-->
-<!--        android:layout_marginTop="669dp"-->
-<!--        android:layout_marginEnd="1dp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="#000000"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/map"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:id="@+id/TF_location"-->
-<!--        android:layout_weight="1.01"-->
-<!--        android:ems="10"-->
-<!--        android:hint="Enter address"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:minHeight="48dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@color/yellow"
+        android:text="Logout"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="241dp"
+        tools:layout_editor_absoluteY="16dp" />
+
     <EditText
         android:id="@+id/TF_location"
-        android:layout_width="match_parent"
+        android:layout_width="288dp"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="45dp"
         android:layout_weight="1.01"
         android:ems="10"
         android:hint="Enter address"
@@ -42,6 +32,8 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,25 +41,29 @@
         android:id="@+id/B_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="110dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="570dp"
         android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/map"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
+        android:layout_marginBottom="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:context=".MapsActivity"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout="@layout/activity_main"
+        tools:layout_editor_absoluteX="92dp" />
 
     <TextView
         android:id="@+id/tvAdd"
@@ -83,7 +79,9 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toEndOf="@+id/map"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
