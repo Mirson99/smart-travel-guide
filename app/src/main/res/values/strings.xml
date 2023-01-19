@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">SmartTravelGuide</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="logout">Logout</string>
+    <string name="enter_address">Enter address</string>
+    <string name="search">Search</string>
+    <string name="weather_image_3">weather_image_3</string>
+    <string name="weather_image_2">weather image 2</string>
+    <string name="todo">TODO</string>
+    <string name="weather_image_1">weather image 1</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
 </resources>
