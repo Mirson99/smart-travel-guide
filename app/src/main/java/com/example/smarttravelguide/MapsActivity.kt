@@ -11,10 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 
@@ -64,6 +61,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         logoutButton.setOnClickListener {
             authViewModel.logout()
             val intent = Intent(this, SigninActivity::class.java)
+            startActivity(intent)
+        }
+
+        val userButton = findViewById<ImageButton>(R.id.user_button)
+
+        userButton.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
 

@@ -11,7 +11,6 @@
         android:layout_height="250dp"
         android:id="@+id/image"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/download"
         android:scaleType="centerCrop"
         />
     <RelativeLayout
@@ -33,18 +32,19 @@
         >
 
     </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/imageCard"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="205dp"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Sofia William"
         android:textColor="#C9FFFFFF"
-        android:layout_marginLeft="20dp"
         android:textSize="22dp"
-        android:fontFamily="@font/nunito_semibold"
-        />
+        app:layout_constraintLeft_toRightOf="@+id/imageCard"
+        app:layout_constraintTop_toTopOf="parent" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginRight="20dp"

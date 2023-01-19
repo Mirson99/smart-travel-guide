@@ -30,4 +30,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:singleLine">true</item>
     </style>
+    <style name="Theme.SmartTravelGuide.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.SmartTravelGuide.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SmartTravelGuide.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
