@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">SmartTravelGuide</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="logout">Logout</string>
+    <string name="get_information">Get Information</string>
+    <string name="enter_city_name">Enter location name</string>
+    <string name="enter_location">Enter location name</string>
+    <string name="calculate">Calculate Distance</string>
 </resources>
