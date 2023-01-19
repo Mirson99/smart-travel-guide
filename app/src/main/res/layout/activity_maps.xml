@@ -17,7 +17,6 @@
         android:text="@string/logout"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="16dp"
         app:layout_constraintBottom_toTopOf="@+id/TF_location"
         app:layout_constraintEnd_toEndOf="parent"
