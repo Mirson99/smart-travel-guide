@@ -27,7 +27,7 @@ class SigninActivity : AppCompatActivity() {
             val password = findViewById<TextInputEditText>(R.id.password).text.toString()
             val email = findViewById<TextInputEditText>(R.id.email).text.toString()
 
-            authViewModel?.loginUser(email, password)
+            authViewModel.loginUser(email, password)
 
             authViewModel.loginFlow.observe(this, Observer { loginFlow ->
                 if (loginFlow is Resource.Success) {

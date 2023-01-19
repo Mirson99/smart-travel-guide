@@ -1,5 +1,6 @@
 package com.example.smarttravelguide
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -13,10 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.os.ConfigurationCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.smarttravelguide.databinding.ActivityMapsBinding
@@ -38,14 +36,8 @@ import java.util.*
 @AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    var WEATHER_URL = ""
-    var API_KEY = "ffd0b3ed3040474f9c37cd8b5213aec6"
-
-    private val _weatherInfo = MutableLiveData<String>()
-    private val _messageStatus = MutableLiveData<String>()
-
-    public val weatherInfo: LiveData<String> = _weatherInfo
-    public val messageStatus: LiveData<String> = _messageStatus
+    private var WEATHER_URL = ""
+    private var API_KEY = "36e1b8a9265f4b2c83c5136e7cd30a8a"
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -54,11 +46,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val permissionCode = 101
 
-    lateinit var tvCurrentAddress: TextView
-    lateinit var button: Button
+    private lateinit var tvCurrentAddress: TextView
+    private lateinit var button: Button
 
-    var end_latitude = 0.0
-    var end_longitude = 0.0
+    private var end_latitude = 0.0
+    private var end_longitude = 0.0
     var origin: MarkerOptions? = null
     var destination: MarkerOptions? = null
     var latitude = 0.0
@@ -87,13 +79,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         getCurrentLocationUser()
 
-        WEATHER_URL =
-            "https://api.weatherbit.io/v2.0/forecast/daily?" +
-                    "lat=" + latitude +
-                    "&lon=" + longitude +
-                    "&key=" + API_KEY
+
         // this function will, fetch data from URL
-        getWeatherInformation()
+
 
 
         button.setOnClickListener {
@@ -102,6 +90,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun searchArea() {
         val tf_location = findViewById<View>(R.id.TF_location) as EditText
         val location = tf_location.text.toString()
@@ -119,12 +108,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             if (addressList != null) {
                 for (i in addressList.indices) {
                     val myAddress = addressList[i]
-                    var latLng = LatLng(myAddress.latitude, myAddress.longitude)
+                    val latLng = LatLng(myAddress.latitude, myAddress.longitude)
                     markerOptions.position(latLng)
-                    mMap!!.addMarker(markerOptions)
+                    mMap.addMarker(markerOptions)
                     end_latitude = myAddress.latitude
                     end_longitude = myAddress.longitude
-                    mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
                     val mo = MarkerOptions()
                     mo.title("Distance")
                     val results = FloatArray(10)
@@ -151,7 +140,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    tvCurrentAddress!!.setText("Distance = $s KM")
+                    tvCurrentAddress.text = "Distance = $s KM"
                 }
 
             }
@@ -177,14 +166,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 latitude = currentLocation.latitude
                 longitude = currentLocation.longitude
 
+
                 Toast.makeText(applicationContext, "Your current location: " +
                         currentLocation.latitude.toString() + "" +
                 currentLocation.longitude.toString(), Toast.LENGTH_LONG).show()
+
 
                 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
                 val mapFragment = supportFragmentManager
                     .findFragmentById(R.id.map) as SupportMapFragment
                 mapFragment.getMapAsync(this)
+
+                getWeatherInformation()
             }
         }
     }
@@ -209,24 +202,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
         val markerOptions = MarkerOptions().position(latLng).title("Current Location")
 
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7f))
-        googleMap?.addMarker(markerOptions)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7f))
+        googleMap.addMarker(markerOptions)
     }
 
 
     fun showWeatherInformation(jsonWeather: String) {
-        var obj = JSONObject(jsonWeather)
-        var arr = obj.getJSONArray("data")  // weather info is in the array called data
+        val obj = JSONObject(jsonWeather)
+        val arr = obj.getJSONArray("data")  // weather info is in the array called data
         var objData = arr.getJSONObject(0)  // get position 0 of the array
-        val currentLocale = ConfigurationCompat.getLocales(resources.configuration)[0]
+        ConfigurationCompat.getLocales(resources.configuration)[0]
+        Log.e("TAG", "Data: $arr")
 
 
-        var objWeather = objData.getJSONObject("weather")
+        val objWeather = objData.getJSONObject("weather")
 
         //Forecast day 1
         objData = arr.getJSONObject(0)  // get position 1 of the array
-        findViewById<TextView>(R.id.textDay1Temp).text = objData.getString("temp") + "º"
+        "${objData.getString("temp")}º".also { findViewById<TextView>(R.id.textDay1Temp).text = it }
         var imageIconCode = objWeather.getString("icon")
         var drawableResourseId =
             this.resources.getIdentifier(imageIconCode, "drawable", this.packageName)
@@ -242,7 +236,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Forecast day 2
         objData = arr.getJSONObject(1)  // get position 1 of the array
-        findViewById<TextView>(R.id.textDay2Temp).text = objData.getString("temp") + "º"
+        "${objData.getString("temp")}º".also { findViewById<TextView>(R.id.textDay2Temp).text = it }
         imageIconCode = objWeather.getString("icon")
         drawableResourseId =
             this.resources.getIdentifier(imageIconCode, "drawable", this.packageName)
@@ -259,7 +253,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Forecast day 3
         objData = arr.getJSONObject(2)  // get position 1 of the array
-        findViewById<TextView>(R.id.textDay3Temp).text = objData.getString("temp") + "º"
+        "${objData.getString("temp")}º".also { findViewById<TextView>(R.id.textDay3Temp).text = it }
         imageIconCode = objWeather.getString("icon")
         drawableResourseId =
             this.resources.getIdentifier(imageIconCode, "drawable", this.packageName)
@@ -279,14 +273,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
 
+        WEATHER_URL =
+            "https://api.weatherbit.io/v2.0/forecast/daily?" +
+                    "lat=" + latitude +
+                    "&lon=" + longitude +
+                    "&key=" + API_KEY
+
+        Log.e("TAG", "URL: $WEATHER_URL")
+
         // Request a string response  from the provided URL.
         val stringReq = StringRequest(Request.Method.GET, WEATHER_URL,
-            Response.Listener<String> { response ->
+            { response ->
+
+                Log.e("TAG", "Response: $response")
                 showWeatherInformation(response)
             },
             // In case of any error
-            Response.ErrorListener {
-                Toast.makeText(getApplicationContext(), "Could not get weather information", Toast.LENGTH_SHORT).show();
+            {
+                Toast.makeText(getApplicationContext(), "Could not get weather information", Toast.LENGTH_SHORT).show()
             })
         queue.add(stringReq)
     }
