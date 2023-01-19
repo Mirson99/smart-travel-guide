@@ -28,7 +28,7 @@ class SignupActivity : AppCompatActivity() {
             val email = findViewById<TextInputEditText>(R.id.emailEt).text.toString()
             val name = findViewById<TextInputEditText>(R.id.name).text.toString()
 
-            authViewModel?.signupUser(name, email, password)
+            authViewModel.signupUser(name, email, password)
 
             authViewModel.signupFlow.observe(this, Observer { signupFlow ->
                 if (signupFlow is Resource.Success) {
